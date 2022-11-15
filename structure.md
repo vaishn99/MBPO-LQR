@@ -1,7 +1,3 @@
-# MBPO-Review
-MBPO algorithm applied on a Linear Dynamic System
-
-
 
 
 # Algorithm proposed :
@@ -47,4 +43,3 @@ MBPO algorithm applied on a Linear Dynamic System
     "An important detail in many machine learning success stories is a means of artificially increasing the size of a training set. It is difficult to define a manual data augmentation procedure for policy optimization, but we can view a predictive model analogously as a learned method of generating synthetic data. The original proposal of such a combination comes from the Dyna algorithm by Sutton, which alternates between model learning, data generation under a model, and policy learning using the model data. "
 
 # Now :
-
