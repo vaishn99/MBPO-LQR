@@ -1,24 +1,15 @@
-from utils import ReplayMemory
+from utils import ReplayMemory,New_Estimate,Sample_state,gradient_At
 import numpy as np
 from env import Environment
 
-def New_Estimate(A,B,D_real):
-    if len(D_real)==0:
-        return A,B
-    
-    return None
 
-def Sample_state(env_pool):
-    return None
-
-def gradient_At(A,B,D_fake):
-    return 1 
 
 
 # A ->>3*3
 # B ->>3*3
 # C->eye(3)
 # K ->>3*3
+
 np.random.seed(0)
 
 A=np.random.rand(3,3)   # Initial theta
