@@ -5,7 +5,7 @@ import gym
 
 
 class ENV:
-    def __init__(self,A,B,Q,R) -> None:
+    def __init__(self,A,B,Q,R):
         self.A=A
         self.B=B
         self.Q=Q
