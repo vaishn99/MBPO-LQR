@@ -2,12 +2,18 @@
 # MBPO : A Review
 
 ## Algorithm proposed :(Simplified version)
+<img width="583" alt="Screenshot 2022-11-17 at 12 07 22 AM" src="https://user-images.githubusercontent.com/113635391/202267312-78099037-df2e-4f5a-8b32-37feb8cb9192.png">
 
 
 
 ## Algorithm proposed:(Implementations version)
 
+<img width="579" alt="Screenshot 2022-11-17 at 12 07 33 AM" src="https://user-images.githubusercontent.com/113635391/202267366-fd1939e5-68d9-4440-a84b-e7cd288af667.png">
 
+## Intuition :
+
+MBPO optimizes a policy under a learned model, collects data under the updated policy, and uses that data to train a new
+model.
 
 
 
