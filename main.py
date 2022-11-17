@@ -36,22 +36,35 @@ def gradient_with_exp(D_fake):
     grad=4
     return grad
 
-def get_traj(S_t,horiz_len,A_hat,B_hat,Q_hat,R_hat,K_t):
+def get_fake_traj(S_t,horiz_len,A_hat,B_hat,Q_hat,R_hat,K_t):
     i=0
     holder=[]
     while i<horiz_len:
         prev=S_t
-        u_T=K*S_t
+        u_T=K_t*S_t
         S_t=A_hat*S_t+B_hat*u_T+np.random.normal(0,1)
         R_t=0.5*[S_t]@Q_hat@[S_t].T + 0.5*[u_T]@R_hat@[u_T].T
         done_t=False
         if S_t==np.zeros_like(S_t):
             done_t=True
-        holder.append((prev,u_T,S_t,R_t,done_t))
+        holder.append((prev,u_T,R_t,S_t,done_t))
         i+=1
     return holder
 
-
+def get_from_env(S_t,K_t,env,len_traj):
+    
+    i=0
+    Is_done=False
+    holder=[]
+    while i<len_traj and Is_done!=True:
+        prev=S_t
+        u_T=K_t*S_t
+        R_t,S_t,Is_done=env.step(u_T)
+        holder.append((prev,u_T,R_t,S_t,Is_done))
+        if Is_done:
+            break
+        i+=1  
+    return holder
 
 # A ->>3*3
 # B ->>3*3
@@ -102,11 +115,10 @@ for n in range(num_of_epcoh):
     A_hat,B_hat,Q_hat,R_hat=New_Estimate(A_hat,B_hat,Q_hat,R_hat,D_real) # Regression 
     for e in range(E):
         S_t=np.random.rand(len(A_hat)) # Update D_real
-        
-        
+        D_real.push(get_from_env(S_t,K_t,20))
         for m in range(M):
             S_t=Sample_state(D_real)    # Random sampling
-            D_fake.push(get_traj(S_t,horiz_len,A_hat,B_hat,K_t))
+            D_fake.push(get_fake_traj(S_t,horiz_len,A_hat,B_hat,K_t))
             # Update D_fake with horiz_len
         for g in range(G):
             K_t+=gradient_with_model(A_hat,B_hat)    # Known parameter
