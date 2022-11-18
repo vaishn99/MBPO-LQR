@@ -61,3 +61,21 @@ model.
     "An important detail in many machine learning success stories is a means of artificially increasing the size of a training set. It is difficult to define a manual data augmentation procedure for policy optimization, but we can view a predictive model analogously as a learned method of generating synthetic data. The original proposal of such a combination comes from the Dyna algorithm by Sutton, which alternates between model learning, data generation under a model, and policy learning using the model data. "
 
 
+# Updates on implementation:
+
+- 17/11/2022:<br />
+    - Built/completed the basic algorithm structure by following Alg-2 .<br />
+
+- 18/11/2022:<br />
+    - By Dry running the code,convergence related issues were noticed.That is , after some steps ,the values    (element wise) are tending to infinity/diverging.<br />
+    - Sanity check:<br />
+        - The following alg(simplified) algorithm is implemented:
+            0. Init: initialise a random policy and random model_parameters.
+            1. collect data from the env,add to a database.
+            2. Update the model based on the observation.
+            3. Re_calculate the optimal policy for this updated model.
+            4.  Repeat: step 1-3 untill conergence.
+    - Using LQR function in control library,the optimal policy is computed (Since we know the env's param).<br />
+    - The optimal policy is compared wrt the best_estimated policy on the bais of L-2 distance.Then also           divergence is observed.<br />
+    - Conclusion : <br />
+    Need to debug the parameter estimation function(Regression section).
