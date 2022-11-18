@@ -69,8 +69,8 @@ model.
 - 18/11/2022:<br />
     - By Dry running the code,convergence related issues were noticed.That is , after some steps ,the values    (element wise) are tending to infinity/diverging.<br />
     - Sanity check:<br />
-        - The following alg(simplified) algorithm is implemented:
-            0. Init: initialise a random policy and random model_parameters.
+        - The following alg(simplified) algorithm is implemented:<br />
+            0. Init: initialise a random policy and random model_parameters.<br />
             1. collect data from the env,add to a database.
             2. Update the model based on the observation.
             3. Re_calculate the optimal policy for this updated model.
