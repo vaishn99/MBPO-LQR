@@ -1,6 +1,9 @@
 
 # MBPO : A Review
 
+## Objective : <br/>
+To simulate MBPO algorithm for LQR setting(ie linear dynamics and quadratic cost).<br/>
+
 ## Algorithm proposed :(Simplified version)
 <img width="583" alt="Screenshot 2022-11-17 at 12 07 22 AM" src="https://user-images.githubusercontent.com/113635391/202267312-78099037-df2e-4f5a-8b32-37feb8cb9192.png">
 
