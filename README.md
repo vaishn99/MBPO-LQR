@@ -55,7 +55,7 @@ model.
 
     Since we are interested in how the real vs fake ratio's affect.In the program ,they are maintaining a a variable named real_ratio,but inside the program they are using this variable to adjust some of the other training parameters.But I didn't get why they are doing so. Additionally, they use this variable in some edge cases detection.
 
-# Important note :
+# An important note :
 
 1. In a blog written by the first author (MBPO), he mention Dyna Algorithm(Sutton).<br />
 
@@ -66,19 +66,32 @@ model.
 
 # Updates on implementation:
 
-- 17/11/2022:<br />
-    - Built/completed the basic algorithm structure by following Alg-2 .<br />
+- Done with the implementation for MBPO algorithm for linear setting.
+- Tested Model updation section,Real and Fake data generation ,things are working fine.
+- But there is a problem with the gradient update rule (Policy gradient is used))
+- We need to working in the following settings
+    - Linear policy (Dirac delta distribution)
+    - Off policy setting (Note that there is an important sampling term)
+- To handle the importance sampling term ,initialy planned to use the following strategy : use a  gaussian policy with mean equal to K@x term and with a fixed covariance matrix.The derivation and the expression for the gradient term is in the "main.ipynb" file.
+- As a sanity check,I used the following test.
 
-- 18/11/2022:<br />
-    - By Dry running the code,convergence related issues were noticed.That is , after some steps ,the values    (element wise) are tending to infinity/diverging.<br />
-    - Sanity check:<br />
-        - The following alg(simplified) algorithm is implemented:<br />
-            0. Init: initialise a random policy and random model_parameters.<br />
-            1. collect data from the env,add to a database.
-            2. Update the model based on the observation.
-            3. Re_calculate the optimal policy for this updated model.
-            4.  Repeat: step 1-3 untill conergence.
-    - Using LQR function in control library,the optimal policy is computed (Since we know the env's param).<br />
-    - The optimal policy is compared wrt the best_estimated policy on the bais of L-2 distance.Then also           divergence is observed.<br />
-    - Conclusion : <br />
-    Need to debug the parameter estimation function(Regression section).
+- In short MBPO, proposes the following approach for finding the optimal policy.Use fake data for performing policy gradient instead of real data.
+
+## The vanilla policy gradient approach :<br />
+- Use the Real data to construct a cost function( which is a function of the policy),
+- Use the gradient descent to do the minimisation step.
+### The drawback:
+- we need a lot of real data(trajectories).
+
+## MBPO proposes the following strategy:
+
+- Use the real data to construct a model 
+- generate fake data(trajectories) using this model
+- Do the policy gradient step using this fake data.
+
+## The Current problem :
+
+- MBPO uses the fake data to update the policy,but instead I will use the real data to upate the policy.It should gradually converge to the optimal policy (which we know in LQR case).But it observed that the " update rule " obtained with the "gaussian hack" is not converging to the optimal policy.Here "gaussian hack" refers to using a gaussian policy for preventing numerically exploding.I have used comments in the script to denote what is going on for each term.
+- The problem  that I'm facing now:
+    For this particular setting "Linear policy" and "off policy trajectories",need to get an expression for grad to carry out the policy updation rule.
+
